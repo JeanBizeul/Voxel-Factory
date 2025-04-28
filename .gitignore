@@ -1,0 +1,10 @@
+voxelFactory
+
+*.o
+*.d
+*.blend1
+*.blend2
+*.blend3
+
+.vscode/
+objs/
