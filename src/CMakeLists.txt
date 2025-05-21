@@ -3,6 +3,7 @@ add_subdirectory(SharedState)
 add_subdirectory(Logger)
 add_subdirectory(Game)
 add_subdirectory(Renderer)
+add_subdirectory(Glad)
 
 add_executable(voxelfactory
     main.cpp

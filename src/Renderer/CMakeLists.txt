@@ -4,12 +4,15 @@ add_library(renderer
 
 target_link_libraries(renderer PRIVATE
     glm-header-only
-    glfw
     shared-state
     logger
+    glad
+    glfw
+    GL
 )
 
 target_include_directories(renderer PRIVATE
-    ${PROJECT_SOURCE_DIR}/submodules/glm
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/submodules/glm
+    ${PROJECT_SOURCE_DIR}/submodules/glfw/include
 )
