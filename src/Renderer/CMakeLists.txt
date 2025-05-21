@@ -4,13 +4,23 @@ add_library(renderer
     RendererGettersSetters.cpp
 )
 
+target_link_libraries(renderer PUBLIC
+    glad
+    glfw
+    X11
+    Xrandr
+    Xxf86vm
+    Xcursor
+    Xinerama
+    pthread
+    dl
+    m
+)
+
 target_link_libraries(renderer PRIVATE
     glm-header-only
     shared-state
     logger
-    glad
-    glfw
-    GL
 )
 
 target_include_directories(renderer PRIVATE

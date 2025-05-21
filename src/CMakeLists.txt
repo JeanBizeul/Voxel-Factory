@@ -13,7 +13,6 @@ target_include_directories(voxelfactory PRIVATE
     ${PROJECT_SOURCE_DIR}/src
 )
 
-
 target_link_libraries(voxelfactory PRIVATE
     glm-header-only
     mesher
@@ -21,5 +20,4 @@ target_link_libraries(voxelfactory PRIVATE
     logger
     game
     renderer
-    glad
 )
