@@ -2,6 +2,7 @@ add_library(renderer
     Renderer.cpp
     FetchInput.cpp
     RendererGettersSetters.cpp
+    Shader.cpp
 )
 
 target_link_libraries(renderer PUBLIC
