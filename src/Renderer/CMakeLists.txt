@@ -4,6 +4,7 @@ add_library(renderer
 
 target_link_libraries(renderer PRIVATE
     glm-header-only
+    glfw
     shared-state
     logger
 )
