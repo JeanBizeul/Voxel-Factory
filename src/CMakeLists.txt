@@ -21,4 +21,5 @@ target_link_libraries(voxelfactory PRIVATE
     logger
     game
     renderer
+    glad
 )

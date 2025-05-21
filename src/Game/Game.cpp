@@ -4,12 +4,6 @@
 
 #include "Logger/Logger.hpp"
 
-void VoxelFactory::Game::updateCamPos(VoxelFactory::SharedState &state)
-{
-    _camPos += glm::ivec3(1.0, 1.0, 0.0);
-    state.setCameraPosition(_camPos);
-}
-
 std::vector<glm::ivec3> VoxelFactory::Game::getVisibleChunks()
 {
     glm::ivec3 actualChunk = _camPos / CHUNK_SIZE;
@@ -37,7 +31,7 @@ void VoxelFactory::gameSimulationThread(VoxelFactory::SharedState &state)
     Game game;
 
     while (state.running) {
-        game.updateCamPos(state);
+        game.manageEvents(state);
         for (const auto& newChunkPos : game.getVisibleChunks()) {
             state.chunksToGenerate.push(newChunkPos);
         }

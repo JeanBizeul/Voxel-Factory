@@ -21,9 +21,17 @@ class Game {
 
     std::vector<glm::ivec3> getVisibleChunks();
 
+    void manageEvents(SharedState &state);
+
  private:
     std::unordered_set<glm::ivec3, IVec3Hash, IVec3Equal> _loadedChunks;
-    glm::ivec3 _camPos;
+    glm::vec3 _camPos;
+    float _deltaTime;
+
+    void _handleKeyPressed(int key, SharedState &state);
+    void _handleKeyRelease(int key, SharedState &state);
+    void _handleMouseMouve(double x, double y, SharedState &state);
+    void _handleMouseScroll(double x, double y, SharedState &state);
 };
 
 void gameSimulationThread(SharedState &state);

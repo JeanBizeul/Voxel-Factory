@@ -22,14 +22,7 @@ std::optional<VoxelFactory::Chunk> VoxelFactory::SharedState::getChunk
     return it->second;
 }
 
-void VoxelFactory::SharedState::setCameraPosition(const glm::ivec3 &pos)
+VoxelFactory::SafeCamera &VoxelFactory::SharedState::camera()
 {
-    std::lock_guard<std::mutex> lock(_cameraMutex);
-    _cameraPos = pos;
-}
-
-const glm::ivec3 &VoxelFactory::SharedState::getCameraPosition() const
-{
-    std::lock_guard<std::mutex> lock(_cameraMutex);
-    return _cameraPos;
+    return _camera;
 }
