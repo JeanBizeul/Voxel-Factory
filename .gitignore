@@ -1,3 +1,9 @@
+# Individual files
 voxelFactory
 
+# Extensions
+*.log
+
+# Folders
+build-*/
 .vscode/
