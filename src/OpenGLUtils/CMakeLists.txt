@@ -2,6 +2,7 @@ add_library(opengl-utils
     Shader.cpp
     VertexBuffer.cpp
     IndexBuffer.cpp
+    VertexArray.cpp
 )
 
 target_link_libraries(opengl-utils PUBLIC

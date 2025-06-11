@@ -1,4 +1,8 @@
+#pragma once
+
 #include <cstddef>
+
+#include "Vertex.hpp"
 
 namespace OpenGLUtils
 {
@@ -8,16 +12,18 @@ namespace OpenGLUtils
  */
 class VertexBuffer {
  public:
-    VertexBuffer(const void* data, size_t size);
+    VertexBuffer(Vertex_t *data, size_t count);
     ~VertexBuffer();
 
-    VertexBuffer(const VertexBuffer&) = delete;
-    VertexBuffer& operator=(const VertexBuffer&) = delete;
-    VertexBuffer(VertexBuffer&& other) noexcept;
-    VertexBuffer& operator=(VertexBuffer&& other) noexcept;
+    VertexBuffer(const VertexBuffer &other) = delete;
+    VertexBuffer &operator=(const VertexBuffer &other) = delete;
+    VertexBuffer(VertexBuffer &&other) noexcept;
+    VertexBuffer &operator=(VertexBuffer &&other) noexcept;
 
     void bind() const;
     static void unbind();
+
+    unsigned int getId() const;
 
  private:
     unsigned int _id = 0;

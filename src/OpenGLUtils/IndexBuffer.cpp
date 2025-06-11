@@ -2,11 +2,12 @@
 
 #include "glad/glad.h"
 
-OpenGLUtils::IndexBuffer::IndexBuffer(const void *data, size_t size)
+OpenGLUtils::IndexBuffer::IndexBuffer(unsigned int *data, size_t count)
+    : _count(count)
 {
     glGenBuffers(1, &_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * count, data, GL_STATIC_DRAW);
 }
 
 OpenGLUtils::IndexBuffer::~IndexBuffer()
@@ -17,7 +18,9 @@ OpenGLUtils::IndexBuffer::~IndexBuffer()
 OpenGLUtils::IndexBuffer::IndexBuffer(IndexBuffer &&other) noexcept
 {
     _id = other._id;
+    _count = other._count;
     other._id = 0;
+    other._count = 0;
 }
 
 OpenGLUtils::IndexBuffer &OpenGLUtils::IndexBuffer::operator=(IndexBuffer &&other) noexcept
@@ -25,7 +28,9 @@ OpenGLUtils::IndexBuffer &OpenGLUtils::IndexBuffer::operator=(IndexBuffer &&othe
     if (this != &other) {
         glDeleteBuffers(1, &_id);
         _id = other._id;
+        _count = other._count;
         other._id = 0;
+        other._count = 0;
     }
     return *this;
 }
@@ -38,4 +43,14 @@ void OpenGLUtils::IndexBuffer::bind() const
 void OpenGLUtils::IndexBuffer::unbind()
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+unsigned int OpenGLUtils::IndexBuffer::getCount() const
+{
+    return _count;
+}
+
+unsigned int OpenGLUtils::IndexBuffer::getId() const
+{
+    return _id;
 }

@@ -2,11 +2,11 @@
 
 #include "glad/glad.h"
 
-OpenGLUtils::VertexBuffer::VertexBuffer(const void *data, size_t size)
+OpenGLUtils::VertexBuffer::VertexBuffer(Vertex_t *data, size_t count)
 {
     glGenBuffers(1, &_id);
     glBindBuffer(GL_ARRAY_BUFFER, _id);
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex_t) * count, data, GL_STATIC_DRAW);
 }
 
 OpenGLUtils::VertexBuffer::~VertexBuffer()
@@ -38,4 +38,9 @@ void OpenGLUtils::VertexBuffer::bind() const
 void OpenGLUtils::VertexBuffer::unbind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+unsigned int OpenGLUtils::VertexBuffer::getId() const
+{
+    return _id;
 }
