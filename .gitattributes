@@ -1,2 +1,2 @@
-submodules/* linguist-vendored
-src/Glad/* linguist-vendored
+submodules/** linguist-vendored
+src/Glad/** linguist-vendored
