@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Camera.hpp"
+#include "OpenGLUtils/Camera.hpp"
 
 namespace VoxelFactory
 {

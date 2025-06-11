@@ -4,6 +4,7 @@ add_subdirectory(Logger)
 add_subdirectory(Game)
 add_subdirectory(Renderer)
 add_subdirectory(Glad)
+add_subdirectory(OpenGLUtils)
 
 add_executable(voxelfactory
     main.cpp
@@ -20,4 +21,5 @@ target_link_libraries(voxelfactory PRIVATE
     logger
     game
     renderer
+    opengl-utils
 )

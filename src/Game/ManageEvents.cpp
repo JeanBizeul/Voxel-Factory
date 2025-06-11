@@ -3,7 +3,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "SharedState/Camera.hpp"
+#include "OpenGLUtils/Camera.hpp"
 
 void VoxelFactory::Game::manageEvents(SharedState &state)
 {
