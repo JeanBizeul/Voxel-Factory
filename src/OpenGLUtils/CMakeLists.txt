@@ -1,5 +1,5 @@
 add_library(opengl-utils
-    Camera.cpp
+    Shader.cpp
 )
 
 target_link_libraries(opengl-utils PUBLIC
@@ -22,6 +22,7 @@ target_link_libraries(opengl-utils PRIVATE
 )
 
 target_include_directories(opengl-utils PRIVATE
+    ${PROJECT_SOURCE_DIR}/src
     ${PROJECT_SOURCE_DIR}/submodules/glm
     ${PROJECT_SOURCE_DIR}/submodules/glfw/include
 )

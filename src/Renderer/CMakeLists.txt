@@ -2,7 +2,6 @@ add_library(renderer
     Renderer.cpp
     FetchInput.cpp
     RendererGettersSetters.cpp
-    Shader.cpp
 )
 
 target_link_libraries(renderer PUBLIC
@@ -22,6 +21,7 @@ target_link_libraries(renderer PRIVATE
     glm-header-only
     shared-state
     logger
+    opengl-utils
 )
 
 target_include_directories(renderer PRIVATE

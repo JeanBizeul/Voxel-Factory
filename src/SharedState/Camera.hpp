@@ -2,11 +2,12 @@
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
 
+namespace VoxelFactory
+{
+
 constexpr float MIN_ZOOM = 1.0f;
 constexpr float MAX_ZOOM = 100.0f;
 
-namespace VoxelFactory
-{
 class Camera
 {
     public:
