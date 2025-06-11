@@ -18,12 +18,11 @@ int main()
     VoxelFactory::SharedState st;
     std::thread game(VoxelFactory::gameSimulationThread, std::ref(st));
     std::thread mesher(VoxelFactory::chunckMesherThread, std::ref(st));
-    std::thread renderer(VoxelFactory::rendererThread, std::ref(st));
+    VoxelFactory::rendererThread(std::ref(st));
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
     st.stopApp();
     game.join();
     mesher.join();
-    renderer.join();
     return 0;
 }
