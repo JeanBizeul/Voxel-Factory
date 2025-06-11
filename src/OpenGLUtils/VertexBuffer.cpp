@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 
-OpenGLUtils::VertexBuffer::VertexBuffer(Vertex_t *data, size_t count)
+OpenGLUtils::VertexBuffer::VertexBuffer(const Vertex_t *data, size_t count)
 {
     glGenBuffers(1, &_id);
     glBindBuffer(GL_ARRAY_BUFFER, _id);

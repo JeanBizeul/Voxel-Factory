@@ -3,6 +3,7 @@ add_library(opengl-utils
     VertexBuffer.cpp
     IndexBuffer.cpp
     VertexArray.cpp
+    Mesh.cpp
 )
 
 target_link_libraries(opengl-utils PUBLIC

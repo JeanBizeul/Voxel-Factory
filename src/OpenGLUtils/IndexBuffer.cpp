@@ -2,7 +2,7 @@
 
 #include "glad/glad.h"
 
-OpenGLUtils::IndexBuffer::IndexBuffer(unsigned int *data, size_t count)
+OpenGLUtils::IndexBuffer::IndexBuffer(const unsigned int *data, size_t count)
     : _count(count)
 {
     glGenBuffers(1, &_id);
@@ -45,7 +45,7 @@ void OpenGLUtils::IndexBuffer::unbind()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-unsigned int OpenGLUtils::IndexBuffer::getCount() const
+size_t OpenGLUtils::IndexBuffer::getCount() const
 {
     return _count;
 }

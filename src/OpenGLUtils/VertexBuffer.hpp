@@ -12,7 +12,7 @@ namespace OpenGLUtils
  */
 class VertexBuffer {
  public:
-    VertexBuffer(Vertex_t *data, size_t count);
+    VertexBuffer(const Vertex_t *data, size_t count);
     ~VertexBuffer();
 
     VertexBuffer(const VertexBuffer &other) = delete;

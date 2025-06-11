@@ -10,7 +10,7 @@ namespace OpenGLUtils
  */
 class IndexBuffer {
  public:
-    IndexBuffer(unsigned int *data, size_t count);
+    IndexBuffer(const unsigned int *data, size_t count);
     ~IndexBuffer();
 
     IndexBuffer(const IndexBuffer &other) = delete;
@@ -21,11 +21,11 @@ class IndexBuffer {
     void bind() const;
     static void unbind();
 
-    unsigned int getCount() const;
+    size_t getCount() const;
     unsigned int getId() const;
 
  private:
-    unsigned int _count;
+    size_t _count;
     unsigned int _id = 0;
 };
 }  // OpenGLUtils
