@@ -1,5 +1,6 @@
 add_library(mesher
     Mesher.cpp
+    MeshGeneration.cpp
 )
 
 target_link_libraries(mesher PRIVATE

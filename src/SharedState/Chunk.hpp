@@ -28,6 +28,8 @@ class Chunk
     blockId get(unsigned char x, unsigned char y, unsigned char z) const;
     void set(unsigned char x, unsigned char y, unsigned char z, blockId id);
 
+    bool isAirOrOutOfBounds(unsigned char x, unsigned char y, unsigned char z) const;
+
  private:
     /**
      * @brief Get the index of a block in a chunk internal vector with xyz coordinates

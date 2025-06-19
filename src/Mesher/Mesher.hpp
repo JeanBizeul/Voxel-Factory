@@ -11,11 +11,10 @@ namespace VoxelFactory {
 class SharedState;
 
 struct MeshData {
-    std::vector<OpenGLUtils::Vertex_t> data;
     glm::vec3 chunkPosition;
-    // Used for frustrum culling
-    glm::vec3 boundsMin;
-    glm::vec3 boundsMax;
+    // Rendering stuff
+    std::vector<OpenGLUtils::Vertex_t> vertices;
+    std::vector<unsigned int> indices;
 };
 
 Chunk generateChunk(const glm::ivec3 &chunkPos);
