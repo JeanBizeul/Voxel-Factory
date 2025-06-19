@@ -64,7 +64,7 @@ void VoxelFactory::Camera::rotateVertical(float pitchDegrees)
 {
     _dirty = true;
     _pitch = glm::clamp(_pitch + glm::radians(pitchDegrees),
-        glm::radians(-89.0f), glm::radians(89.0f));
+        glm::radians(10.0f), glm::radians(89.0f));
     _computePosition();
 }
 

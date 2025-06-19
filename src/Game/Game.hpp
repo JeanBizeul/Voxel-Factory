@@ -32,9 +32,6 @@ class Game {
     void _handleMouseButtonPressed(int button, SharedState &state);
     void _handleMouseButtonReleased(int button, SharedState &state);
     void _handleMouseMouve(double x, double y, SharedState &state);
-    double _lastMouseX = -1;
-    double _lastMouseY = -1;
-    bool _mouseInitialized = false;
     void _handleMouseScroll(double x, double y, SharedState &state);
 };
 

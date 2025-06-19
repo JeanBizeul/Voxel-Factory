@@ -66,7 +66,6 @@ void VoxelFactory::Game::_handleMouseButtonPressed(int button, SharedState &stat
     switch (button) {
         case GLFW_MOUSE_BUTTON_MIDDLE:
             state.cameraCanMove = true;
-            LOG_INFO("MMB");
             break;
         default:
             break;
@@ -84,21 +83,8 @@ void VoxelFactory::Game::_handleMouseButtonReleased(int button, SharedState &sta
     }
 }
 
-void VoxelFactory::Game::_handleMouseMouve(double x, double y, SharedState &state)
+void VoxelFactory::Game::_handleMouseMouve(double deltaX, double deltaY, SharedState &state)
 {
-    if (!_cameraCanMove) return;
-    if (!_mouseInitialized) {
-        _lastMouseX = x;
-        _lastMouseY = y;
-        _mouseInitialized = true;
-        return;
-    }
-    double deltaX = x - _lastMouseX;
-    double deltaY = y - _lastMouseY;
-
-    _lastMouseX = x;
-    _lastMouseY = y;
-
     constexpr float sensitivity = 0.1f;
     state.camera().rotateHorizontal(deltaX * sensitivity);
     state.camera().rotateVertical(deltaY * sensitivity);

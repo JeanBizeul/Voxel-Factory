@@ -34,6 +34,34 @@ void VoxelFactory::scrollCallback(GLFWwindow *, double xoffset, double yoffset)
     }
 }
 
+void VoxelFactory::mouseMovedCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    static double lastMouseX = -1;
+    static double lastMouseY = -1;
+    static bool firstTimeMoved = true;
+
+    if (firstTimeMoved) {
+        lastMouseX = xpos;
+        lastMouseY = ypos;
+        firstTimeMoved = false;
+        return;
+    }
+
+    double deltaX = xpos - lastMouseX;
+    double deltaY = ypos - lastMouseY;
+    lastMouseX = xpos;
+    lastMouseY = ypos;
+
+    // Only push event if camera is in move mode
+    SharedState* state = reinterpret_cast<SharedState*>(glfwGetWindowUserPointer(window));
+    if (state && state->cameraCanMove) {
+        state->inputEvents.push(InputEvent{
+            EventType::MouseMoved,
+            MouseMoveEvent{ deltaX, deltaY }
+        });
+    }
+}
+
 void VoxelFactory::Renderer::fetchInputs(ThreadSafeQueue<InputEvent>& inputEvents, GLFWwindow* window)
 {
     InputEventsPtr = &inputEvents;
@@ -56,8 +84,4 @@ void VoxelFactory::Renderer::fetchInputs(ThreadSafeQueue<InputEvent>& inputEvent
             });
         }
     }
-
-    double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
-    inputEvents.push(InputEvent{ EventType::MouseMoved, MouseMoveEvent{xpos, ypos} });
 }

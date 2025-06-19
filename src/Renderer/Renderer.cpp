@@ -36,7 +36,9 @@ VoxelFactory::Renderer::Renderer(SharedState &state)
         LOG_ERROR(e.what());
     }
 
+    glfwSetWindowUserPointer(_window, &state);
     glfwSetScrollCallback(_window, scrollCallback);
+    glfwSetCursorPosCallback(_window, mouseMovedCallback);
 }
 
 VoxelFactory::Renderer::~Renderer()
@@ -75,7 +77,15 @@ void VoxelFactory::rendererThread(SharedState &state)
         }
         renderer.renderFrame();
         glfwPollEvents();
+        if (state.cameraCanMove && !state.cursorTrapped) {
+            glfwSetInputMode(renderer.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            state.cursorTrapped = true;
+        } else if (!state.cameraCanMove && state.cursorTrapped) {
+            glfwSetInputMode(renderer.getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            state.cursorTrapped = false;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
+
     }
     LOG_INFO("Stopped renderer thread");
 }

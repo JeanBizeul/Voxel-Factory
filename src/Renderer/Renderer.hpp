@@ -21,6 +21,7 @@ namespace VoxelFactory
 {
 
 void scrollCallback(GLFWwindow *, double xoffset, double yoffset);
+void mouseMovedCallback(GLFWwindow* window, double xpos, double ypos);
 
 class Renderer {
  public:
