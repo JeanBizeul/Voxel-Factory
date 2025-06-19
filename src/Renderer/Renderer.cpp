@@ -27,6 +27,14 @@ VoxelFactory::Renderer::Renderer(SharedState &state)
         return;
     }
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    glEnable(GL_DEPTH_TEST);
+    // glfwWindowHint(GLFW_DEPTH_BITS, 24);
+
+    glfwSetWindowUserPointer(_window, &state);
+    glfwSetScrollCallback(_window, scrollCallback);
+    glfwSetCursorPosCallback(_window, mouseMovedCallback);
+
     _textureAtlas.reset(new OpenGLUtils::TextureAtlas("assets/textures", 8, 8));
 
     try {
@@ -35,10 +43,6 @@ VoxelFactory::Renderer::Renderer(SharedState &state)
     } catch (std::exception &e) {
         LOG_ERROR(e.what());
     }
-
-    glfwSetWindowUserPointer(_window, &state);
-    glfwSetScrollCallback(_window, scrollCallback);
-    glfwSetCursorPosCallback(_window, mouseMovedCallback);
 }
 
 VoxelFactory::Renderer::~Renderer()
