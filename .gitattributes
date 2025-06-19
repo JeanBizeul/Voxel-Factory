@@ -1,2 +1,3 @@
 submodules/** linguist-vendored
 src/Glad/** linguist-vendored
+src/OpenGLUtils/STBImage/stb_image.h linguist-vendored
