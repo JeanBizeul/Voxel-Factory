@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -10,6 +10,7 @@
 #include "Mesher/Mesher.hpp"
 #include "SharedState/ChunckMap.hpp"
 #include "OpenGLUtils/TextureAtlas.hpp"
+#include "OpenGLUtils/Mesh.hpp"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -22,14 +23,15 @@ class Renderer {
     Renderer(SharedState &state);
     ~Renderer();
 
-    void storeForRendering(const glm::ivec3 pos);
+    void storeForRendering(const MeshData &meshData);
     void renderFrame();
     void fetchInputs(ThreadSafeQueue<InputEvent> &inputEvents,
       GLFWwindow *window);
 
     GLFWwindow *getWindow();
  private:
-    std::unordered_set<glm::ivec3, IVec3Hash, IVec3Equal> _meshMap;
+    std::unordered_map<glm::ivec3, std::unique_ptr<OpenGLUtils::Mesh>,
+        IVec3Hash, IVec3Equal> _meshes;
     GLFWwindow *_window;
     std::unique_ptr<OpenGLUtils::TextureAtlas> _textureAtlas;
 };

@@ -10,8 +10,13 @@ OpenGLUtils::Mesh::Mesh(const std::vector<Vertex_t> &vertices,
       _indexCount(indices.size())
 {}
 
-void OpenGLUtils::Mesh::draw() const
+void OpenGLUtils::Mesh::bind() const
 {
     _vao.bind();
+}
+
+void OpenGLUtils::Mesh::draw() const
+{
+    bind();
     glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_INT, nullptr);
 }

@@ -14,6 +14,7 @@ class Mesh
         const std::vector<unsigned int> &indices);
     ~Mesh() = default;
 
+    void bind() const;
     void draw() const;
  private:
     VertexBuffer _vbo;

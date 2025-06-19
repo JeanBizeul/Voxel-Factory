@@ -34,14 +34,27 @@ VoxelFactory::Renderer::~Renderer()
     glfwTerminate();
 }
 
-void VoxelFactory::Renderer::storeForRendering(const glm::ivec3 pos)
+void VoxelFactory::Renderer::storeForRendering(const MeshData &meshData)
 {
-    _meshMap.insert(pos);
+    if (_meshes.contains(meshData.chunkPosition))
+        return;
+
+    LOG_DEBUG("Sending mesh to GPU ({}, {}, {})",
+        meshData.chunkPosition.x, meshData.chunkPosition.y, meshData.chunkPosition.z);
+    auto mesh = std::make_unique<OpenGLUtils::Mesh>(meshData.vertices, meshData.indices);
+    _meshes[meshData.chunkPosition] = std::move(mesh);
 }
 
 void VoxelFactory::Renderer::renderFrame()
 {
-    // OpenGL stuff
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    for (const auto &[pos, mesh] : _meshes) {
+        mesh->draw();
+    }
+
+    glfwSwapBuffers(_window);
 }
 
 void VoxelFactory::rendererThread(SharedState &state)
@@ -53,13 +66,12 @@ void VoxelFactory::rendererThread(SharedState &state)
         renderer.fetchInputs(state.inputEvents, renderer.getWindow());
         while (!state.readyMeshes.empty()) {
             auto meshOpt = state.readyMeshes.try_pop();
-            
+
             if (!meshOpt.has_value()) break;
-            MeshData mesh = meshOpt.value();
-            // mesh.uploadToGPU();
-            renderer.storeForRendering(mesh.chunkPosition);
+            renderer.storeForRendering(meshOpt.value());
         }
         renderer.renderFrame();
+        glfwPollEvents();
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
     LOG_INFO("Stopped renderer thread");
