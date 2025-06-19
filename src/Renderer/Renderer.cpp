@@ -34,11 +34,6 @@ VoxelFactory::Renderer::~Renderer()
     glfwTerminate();
 }
 
-void VoxelFactory::Renderer::uploadMeshToGPU(const MeshData &mesh)
-{
-    // OpenGL stuff
-}
-
 void VoxelFactory::Renderer::storeForRendering(const glm::ivec3 pos)
 {
     _meshMap.insert(pos);
@@ -61,7 +56,7 @@ void VoxelFactory::rendererThread(SharedState &state)
             
             if (!meshOpt.has_value()) break;
             MeshData mesh = meshOpt.value();
-            renderer.uploadMeshToGPU(mesh);
+            // mesh.uploadToGPU();
             renderer.storeForRendering(mesh.chunkPosition);
         }
         renderer.renderFrame();

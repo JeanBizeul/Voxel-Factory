@@ -22,7 +22,6 @@ class Renderer {
     Renderer(SharedState &state);
     ~Renderer();
 
-    void uploadMeshToGPU(const MeshData &mesh);
     void storeForRendering(const glm::ivec3 pos);
     void renderFrame();
     void fetchInputs(ThreadSafeQueue<InputEvent> &inputEvents,
