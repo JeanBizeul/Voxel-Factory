@@ -4,9 +4,9 @@
 
 #include "Logger/Logger.hpp"
 
-std::vector<glm::ivec3> VoxelFactory::Game::getVisibleChunks()
+std::vector<glm::ivec3> VoxelFactory::Game::getVisibleChunks(const glm::vec3 &camPos)
 {
-    glm::ivec3 actualChunk = _camPos / CHUNK_SIZE;
+    glm::ivec3 actualChunk = camPos / CHUNK_SIZE;
     std::vector<glm::ivec3> visibleChunks;
 
     for (int x = -RENDER_DISTANCE; x <= RENDER_DISTANCE; ++x) {
@@ -28,7 +28,7 @@ void VoxelFactory::gameSimulationThread(VoxelFactory::SharedState &state)
     LOG_INFO("Started game simulation thread");
     while (state.running) {
         game.manageEvents(state);
-        for (const auto& newChunkPos : game.getVisibleChunks()) {
+        for (const auto& newChunkPos : game.getVisibleChunks(state.camera().getTargetPosition())) {
             state.chunksToGenerate.push(newChunkPos);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
