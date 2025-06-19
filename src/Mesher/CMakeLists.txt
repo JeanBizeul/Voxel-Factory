@@ -5,6 +5,7 @@ add_library(mesher
 target_link_libraries(mesher PRIVATE
     glm-header-only
     shared-state
+    opengl-utils
 )
 
 target_include_directories(mesher PRIVATE

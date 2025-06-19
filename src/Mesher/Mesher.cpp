@@ -11,6 +11,7 @@ VoxelFactory::Chunk VoxelFactory::generateChunk(const glm::ivec3 &pos)
     Chunk chunk;
 
     chunk.pos = pos;
+    chunk.blocks.resize(CHUNK_VOLUME, 0);  // 0 == air
     return chunk;
 }
 
@@ -32,8 +33,8 @@ void VoxelFactory::chunckMesherThread(SharedState &state)
         break;
         
         glm::ivec3 chunkPos = chunkOpt.value();
-        Chunk chunk = generateChunk(chunkPos);
-        MeshData mesh = generateMesh(chunk);
+        Chunk chunk = std::move(generateChunk(chunkPos));
+        MeshData mesh = std::move(generateMesh(chunk));
         state.readyMeshes.push(mesh);
     }
     LOG_INFO("Stopped mesher thread");

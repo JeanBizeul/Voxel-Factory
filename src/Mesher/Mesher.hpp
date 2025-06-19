@@ -5,14 +5,17 @@
 
 #include "glm/vec3.hpp"
 #include "SharedState/Chunk.hpp"
+#include "OpenGLUtils/Vertex.hpp"
 
 namespace VoxelFactory {
 class SharedState;
 
 struct MeshData {
-    std::vector<float> vertices;
-    std::vector<uint32_t> indices;
+    std::vector<OpenGLUtils::Vertex_t> data;
     glm::vec3 chunkPosition;
+    // Used for frustrum culling
+    glm::vec3 boundsMin;
+    glm::vec3 boundsMax;
 };
 
 Chunk generateChunk(const glm::ivec3 &chunkPos);

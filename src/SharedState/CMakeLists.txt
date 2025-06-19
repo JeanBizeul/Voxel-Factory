@@ -1,6 +1,7 @@
 add_library(shared-state
     SharedState.cpp
     Camera.cpp
+    Chunk.cpp
 )
 
 target_link_libraries(shared-state PUBLIC
