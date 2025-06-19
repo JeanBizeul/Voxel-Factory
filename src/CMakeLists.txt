@@ -1,6 +1,5 @@
 add_subdirectory(Mesher)
 add_subdirectory(SharedState)
-add_subdirectory(Logger)
 add_subdirectory(Game)
 add_subdirectory(Renderer)
 add_subdirectory(Glad)
@@ -18,7 +17,6 @@ target_link_libraries(voxelfactory PRIVATE
     glm-header-only
     mesher
     shared-state
-    logger
     game
     renderer
     opengl-utils

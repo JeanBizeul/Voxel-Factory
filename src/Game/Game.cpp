@@ -14,11 +14,6 @@ std::vector<glm::ivec3> VoxelFactory::Game::getVisibleChunks()
             glm::ivec3 chunkPos = actualChunk + glm::ivec3(x, y, 0);
             if (_loadedChunks.find(chunkPos) == _loadedChunks.end()) {
                 visibleChunks.emplace_back(chunkPos);
-                Logger::getInstance().log("Added ("
-                    + std::to_string(chunkPos.x) + ", "
-                    + std::to_string(chunkPos.y) + ", "
-                    + std::to_string(chunkPos.z) + ")",
-                    "simulation");
                 _loadedChunks.emplace(chunkPos);
             }
         }
@@ -30,6 +25,7 @@ void VoxelFactory::gameSimulationThread(VoxelFactory::SharedState &state)
 {
     Game game;
 
+    LOG_INFO("Started game simulation thread");
     while (state.running) {
         game.manageEvents(state);
         for (const auto& newChunkPos : game.getVisibleChunks()) {
@@ -37,5 +33,5 @@ void VoxelFactory::gameSimulationThread(VoxelFactory::SharedState &state)
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
-    Logger::getInstance().log("Stopped simulation thread", "simulation", Logger::INFO);
+    LOG_INFO("Stopped simulation thread");
 }

@@ -5,7 +5,6 @@ add_library(mesher
 target_link_libraries(mesher PRIVATE
     glm-header-only
     shared-state
-    logger
 )
 
 target_include_directories(mesher PRIVATE

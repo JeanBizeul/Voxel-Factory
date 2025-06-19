@@ -1,10 +1,11 @@
 #include "Shader.hpp"
 
 #include <fstream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/gtc/type_ptr.hpp>
 #include <stdexcept>
+
+#include "glm/gtc/type_ptr.hpp"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #include "Logger/Logger.hpp"
 
@@ -73,8 +74,8 @@ OpenGLUtils::Shader::Shader(const std::string &vertexPath,
     // We don't need the compiled shaders anymore (they takes space in memory)
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-    VoxelFactory::Logger::getInstance().log("Loaded and linked " + vertexPath
-        + " + " + fragmentPath, "shader", VoxelFactory::Logger::INFO);
+    // Logger::i().log("Loaded and linked " + vertexPath
+    //     + " + " + fragmentPath, "shader", Logger::INFO);
 }
 
 OpenGLUtils::Shader::~Shader()

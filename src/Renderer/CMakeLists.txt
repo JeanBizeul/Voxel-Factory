@@ -20,7 +20,6 @@ target_link_libraries(renderer PUBLIC
 target_link_libraries(renderer PRIVATE
     glm-header-only
     shared-state
-    logger
     opengl-utils
 )
 

@@ -12,9 +12,11 @@
 #include "Mesher/Mesher.hpp"
 #include "Game/Game.hpp"
 #include "Renderer/Renderer.hpp"
+#include "Logger/Logger.hpp"
 
 int main()
 {
+    Logs::Logger::getInstance().setMinimumLogLevel(Logs::LogLevel::Info);
     VoxelFactory::SharedState st;
     std::thread game(VoxelFactory::gameSimulationThread, std::ref(st));
     std::thread mesher(VoxelFactory::chunckMesherThread, std::ref(st));

@@ -6,7 +6,7 @@
 
 VoxelFactory::Renderer::Renderer(SharedState &state)
 {
-    Logger::getInstance().log("Loading renderer", "renderer", Logger::INFO);
+    LOG_INFO("Loading renderer");
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -14,18 +14,19 @@ VoxelFactory::Renderer::Renderer(SharedState &state)
 
     _window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME, NULL, NULL);
     if (_window == NULL) {
-        Logger::getInstance().log("Failed to create GLFW window", "renderer", Logger::FATAL);
+        LOG_FATAL("Failed to create GLFW window");
         state.running = false;
         return;
     }
     glfwMakeContextCurrent(_window);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        Logger::getInstance().log("Failed to initialize GLAD", "renderer", Logger::FATAL);
+        LOG_FATAL("Failed to initialize GLAD");
         state.running = false;
         return;
     }
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    _textureAtlas.reset(new OpenGLUtils::TextureAtlas("assets/textures", 8, 8));
 }
 
 VoxelFactory::Renderer::~Renderer()
@@ -45,8 +46,6 @@ void VoxelFactory::Renderer::storeForRendering(const glm::ivec3 pos)
 
 void VoxelFactory::Renderer::renderFrame()
 {
-    Logger::getInstance().log("Rendering " + std::to_string(_meshMap.size())
-        + " meshes", "renderer");
     // OpenGL stuff
 }
 
@@ -54,11 +53,12 @@ void VoxelFactory::rendererThread(SharedState &state)
 {
     Renderer renderer(state);
 
+    LOG_INFO("Started renderer thread");
     while (state.running) {
         renderer.fetchInputs(state.inputEvents, renderer.getWindow());
         while (!state.readyMeshes.empty()) {
             auto meshOpt = state.readyMeshes.try_pop();
-
+            
             if (!meshOpt.has_value()) break;
             MeshData mesh = meshOpt.value();
             renderer.uploadMeshToGPU(mesh);
@@ -67,5 +67,5 @@ void VoxelFactory::rendererThread(SharedState &state)
         renderer.renderFrame();
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
-    Logger::getInstance().log("Stopped renderer thread", "renderer", Logger::INFO);
+    LOG_INFO("Stopped renderer thread");
 }

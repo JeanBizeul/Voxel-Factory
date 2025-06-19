@@ -4,6 +4,7 @@ add_library(opengl-utils
     IndexBuffer.cpp
     VertexArray.cpp
     Mesh.cpp
+    TextureAtlas.cpp
 )
 
 target_link_libraries(opengl-utils PUBLIC
@@ -22,7 +23,6 @@ target_link_libraries(opengl-utils PUBLIC
 target_link_libraries(opengl-utils PRIVATE
     glm-header-only
     shared-state
-    logger
 )
 
 target_include_directories(opengl-utils PRIVATE

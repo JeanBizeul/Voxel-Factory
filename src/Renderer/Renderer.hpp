@@ -9,6 +9,7 @@
 #include "SharedState/SharedState.hpp"
 #include "Mesher/Mesher.hpp"
 #include "SharedState/ChunckMap.hpp"
+#include "OpenGLUtils/TextureAtlas.hpp"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -28,10 +29,10 @@ class Renderer {
       GLFWwindow *window);
 
     GLFWwindow *getWindow();
-
  private:
     std::unordered_set<glm::ivec3, IVec3Hash, IVec3Equal> _meshMap;
     GLFWwindow *_window;
+    std::unique_ptr<OpenGLUtils::TextureAtlas> _textureAtlas;
 };
 
 void rendererThread(SharedState &state);
