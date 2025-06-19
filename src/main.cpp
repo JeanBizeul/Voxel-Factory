@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <thread>
+#include <csignal>
 
 #include "SharedState/SharedState.hpp"
 #include "Mesher/Mesher.hpp"
@@ -14,17 +15,26 @@
 #include "Renderer/Renderer.hpp"
 #include "Logger/Logger.hpp"
 
+VoxelFactory::SharedState st;
+
+void sigintHandler(int sig)
+{
+    (void) sig;
+
+    LOG_INFO("Received SIGINT, stopping app");
+    st.stopApp();
+}
+
 int main()
 {
-    Logs::Logger::getInstance().setMinimumLogLevel(Logs::LogLevel::Info);
-    VoxelFactory::SharedState st;
-    std::thread game(VoxelFactory::gameSimulationThread, std::ref(st));
+    std::signal(SIGINT, sigintHandler);
+    Logs::Logger::getInstance().setMinimumLogLevel(Logs::LogLevel::Debug);
     std::thread mesher(VoxelFactory::chunckMesherThread, std::ref(st));
-    VoxelFactory::rendererThread(std::ref(st));
+    std::thread renderer(VoxelFactory::rendererThread, std::ref(st));
+    VoxelFactory::gameSimulationThread(std::ref(st));
 
-    std::this_thread::sleep_for(std::chrono::seconds(3));
     st.stopApp();
-    game.join();
     mesher.join();
+    renderer.join();
     return 0;
 }

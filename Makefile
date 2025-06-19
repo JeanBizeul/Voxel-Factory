@@ -24,17 +24,16 @@ debug: submodules
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$(OUTPUT_DIR)	\
 		-B $(DEBUG_DIR)
 	cmake --build $(DEBUG_DIR)
+	cp ./$(DEBUG_DIR)/src/voxelfactory .
 
 # I have added -DGLFW_BUILD_WAYLAND=OFF & -DGLFW_USE_LIBDECOR=OFF for my config
 release: submodules
 	cmake . -G $(GENERATOR)	\
 		-DCMAKE_BUILD_TYPE=Release	\
 		-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=$(OUTPUT_DIR)	\
-		-DGLFW_BUILD_WAYLAND=OFF \
-		-DGLFW_USE_LIBDECOR=OFF \
 		-B $(RELEASE_DIR)
 	cmake --build $(RELEASE_DIR)
 	cp $(RELEASE_DIR)/src/voxelfactory .
 
 run: debug
-	./$(DEBUG_DIR)/src/voxelfactory
+	./voxelfactory
