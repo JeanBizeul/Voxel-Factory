@@ -11,7 +11,7 @@ class SafeCamera {
 public:
     SafeCamera(glm::vec3 position = glm::vec3(0.0f),
                 float zoom = 1.0f,
-                float velocity = 10.0f)
+                float velocity = 1.0f)
         : _camera(position, zoom, velocity) {}
 
     glm::mat4 getTransformationMatrix() {
@@ -38,7 +38,7 @@ public:
         std::lock_guard<std::mutex> lock(_mutex);
         _camera.setTargetPosition(position);
     }
-    
+
     void zoom(float zoom) {
         std::lock_guard<std::mutex> lock(_mutex);
         _camera.zoom(zoom);

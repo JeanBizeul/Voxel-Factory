@@ -1,6 +1,6 @@
 #include "Camera.hpp"
 
-#include "glm/gtc/matrix_transform.hpp" 
+#include "glm/gtc/matrix_transform.hpp"
 
 VoxelFactory::Camera::Camera(glm::vec3 target,
 float yaw, float pitch,
@@ -14,20 +14,23 @@ float zoom, float velocity)
 
 glm::mat4 VoxelFactory::Camera::getTransformationMatrix()
 {
-    glm::vec3 direction = glm::normalize(_position - _target);
-    glm::vec3 right = glm::normalize(glm::cross(direction, glm::vec3(0.0f, 1.0f, 0.0f)));
-    glm::vec3 up = glm::cross(right, direction);
+    if (_dirty) {
+        glm::vec3 direction = glm::normalize(_target - _position);
+        glm::vec3 right = glm::normalize(glm::cross(direction, glm::vec3(0.0f, 1.0f, 0.0f)));
+        glm::vec3 up = glm::cross(right, direction);
+        _cachedViewMatrix = glm::lookAt(_position, _target, up);
+        _dirty = false;
+    }
 
-    return glm::lookAt(_position, _target, up);
+    return _cachedViewMatrix;
 }
 
 void VoxelFactory::Camera::move(Direction direction, double deltaTime)
 {
-    glm::vec3 forward = glm::normalize(glm::vec3(
-        glm::sin(_yaw),
-        0.0f,
-        glm::cos(_yaw)
-    ));
+    _dirty = true;
+    glm::vec3 forward = glm::normalize(_target - _position);
+    forward.y = 0.0f; // Stay horizontal
+    forward = glm::normalize(forward);
     glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
 
     switch (direction)
@@ -50,6 +53,7 @@ void VoxelFactory::Camera::move(Direction direction, double deltaTime)
 
 void VoxelFactory::Camera::rotateHorizontal(float yawDegrees)
 {
+    _dirty = true;
     _yaw += glm::radians(yawDegrees);
     _yaw = glm::mod(_yaw + glm::pi<float>(), glm::two_pi<float>());
     _yaw -= glm::pi<float>();
@@ -58,6 +62,7 @@ void VoxelFactory::Camera::rotateHorizontal(float yawDegrees)
 
 void VoxelFactory::Camera::rotateVertical(float pitchDegrees)
 {
+    _dirty = true;
     _pitch = glm::clamp(_pitch + glm::radians(pitchDegrees),
         glm::radians(-89.0f), glm::radians(89.0f));
     _computePosition();
@@ -65,6 +70,7 @@ void VoxelFactory::Camera::rotateVertical(float pitchDegrees)
 
 void VoxelFactory::Camera::zoom(float zoom)
 {
+    _dirty = true;
     _zoom = glm::clamp(_zoom + zoom, MIN_ZOOM, MAX_ZOOM);
     _computePosition();
 }
@@ -78,12 +84,14 @@ void VoxelFactory::Camera::_computePosition()
 
 void VoxelFactory::Camera::setTargetPosition(glm::vec3 position)
 {
+    _dirty = true;
     _target = position;
     _computePosition();
 }
 
 void VoxelFactory::Camera::setRotation(float yawDegrees, float pitchDegrees)
 {
+    _dirty = true;
     _yaw = glm::radians(yawDegrees);
     _yaw = glm::mod(_yaw + glm::pi<float>(), glm::two_pi<float>());
     _yaw -= glm::pi<float>();
@@ -95,6 +103,7 @@ void VoxelFactory::Camera::setRotation(float yawDegrees, float pitchDegrees)
 
 void VoxelFactory::Camera::setZoom(float zoom)
 {
+    _dirty = true;
     _zoom = glm::clamp(zoom, MIN_ZOOM, MAX_ZOOM);
     _computePosition();
 }

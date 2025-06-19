@@ -19,7 +19,7 @@ class SharedState {
  public:
     SharedState() = default;
     ~SharedState() = default;
-    
+
     ThreadSafeQueue<glm::ivec3> chunksToGenerate;
     ThreadSafeQueue<MeshData> readyMeshes;
     ThreadSafeQueue<InputEvent> inputEvents;
@@ -31,6 +31,9 @@ class SharedState {
     std::optional<Chunk> getChunk(const glm::ivec3 &pos) const;
 
     SafeCamera &camera();
+
+    std::atomic<bool> cameraCanMove;
+    std::atomic<bool> cursorTrapped;
 
  private:
     std::unordered_map<glm::ivec3, Chunk, IVec3Hash, IVec3Equal> _chunkMap;

@@ -17,8 +17,6 @@ class Game {
     Game() : _camPos(0.0f) {}
     ~Game() = default;
 
-    void updateCamPos(SharedState &state);
-
     std::vector<glm::ivec3> getVisibleChunks();
 
     void manageEvents(SharedState &state);
@@ -30,7 +28,13 @@ class Game {
 
     void _handleKeyPressed(int key, SharedState &state);
     void _handleKeyRelease(int key, SharedState &state);
+    bool _cameraCanMove = false;
+    void _handleMouseButtonPressed(int button, SharedState &state);
+    void _handleMouseButtonReleased(int button, SharedState &state);
     void _handleMouseMouve(double x, double y, SharedState &state);
+    double _lastMouseX = -1;
+    double _lastMouseY = -1;
+    bool _mouseInitialized = false;
     void _handleMouseScroll(double x, double y, SharedState &state);
 };
 

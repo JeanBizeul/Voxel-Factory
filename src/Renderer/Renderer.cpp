@@ -5,6 +5,7 @@
 #include "Logger/Logger.hpp"
 
 VoxelFactory::Renderer::Renderer(SharedState &state)
+    : _state(state)
 {
     LOG_INFO("Loading renderer");
     glfwInit();
@@ -27,10 +28,24 @@ VoxelFactory::Renderer::Renderer(SharedState &state)
     }
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
     _textureAtlas.reset(new OpenGLUtils::TextureAtlas("assets/textures", 8, 8));
+
+    try {
+        _blockShader = std::make_unique<OpenGLUtils::Shader>
+            ("shaders/block.vert", "shaders/block.frag");
+    } catch (std::exception &e) {
+        LOG_ERROR(e.what());
+    }
+
+    glfwSetScrollCallback(_window, scrollCallback);
 }
 
 VoxelFactory::Renderer::~Renderer()
 {
+    _meshes.clear();
+    _blockShader.reset();
+    _textureAtlas.reset();
+
+    glfwDestroyWindow(_window);
     glfwTerminate();
 }
 
@@ -43,18 +58,6 @@ void VoxelFactory::Renderer::storeForRendering(const MeshData &meshData)
         meshData.chunkPosition.x, meshData.chunkPosition.y, meshData.chunkPosition.z);
     auto mesh = std::make_unique<OpenGLUtils::Mesh>(meshData.vertices, meshData.indices);
     _meshes[meshData.chunkPosition] = std::move(mesh);
-}
-
-void VoxelFactory::Renderer::renderFrame()
-{
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    for (const auto &[pos, mesh] : _meshes) {
-        mesh->draw();
-    }
-
-    glfwSwapBuffers(_window);
 }
 
 void VoxelFactory::rendererThread(SharedState &state)

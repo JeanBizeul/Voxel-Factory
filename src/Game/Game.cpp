@@ -10,8 +10,8 @@ std::vector<glm::ivec3> VoxelFactory::Game::getVisibleChunks()
     std::vector<glm::ivec3> visibleChunks;
 
     for (int x = -RENDER_DISTANCE; x <= RENDER_DISTANCE; ++x) {
-        for (int y = -RENDER_DISTANCE; y <= RENDER_DISTANCE; ++y) {
-            glm::ivec3 chunkPos = actualChunk + glm::ivec3(x, y, 0);
+        for (int z = -RENDER_DISTANCE; z <= RENDER_DISTANCE; ++z) {
+            glm::ivec3 chunkPos = actualChunk + glm::ivec3(x, 0, z);
             if (_loadedChunks.find(chunkPos) == _loadedChunks.end()) {
                 visibleChunks.emplace_back(chunkPos);
                 _loadedChunks.emplace(chunkPos);

@@ -1,5 +1,7 @@
 #include "Renderer.hpp"
 
+static ThreadSafeQueue<VoxelFactory::InputEvent> *InputEventsPtr = nullptr;
+
 const std::vector<int> keys = {
     GLFW_KEY_W,
     GLFW_KEY_A,
@@ -12,7 +14,8 @@ const std::vector<int> keys = {
     GLFW_KEY_LEFT,
     GLFW_KEY_RIGHT,
     GLFW_KEY_SPACE,
-    GLFW_KEY_LEFT_SHIFT
+    GLFW_KEY_LEFT_SHIFT,
+    GLFW_KEY_ESCAPE
 };
 
 const std::vector<int> mouseButtons = {
@@ -21,8 +24,19 @@ const std::vector<int> mouseButtons = {
     GLFW_MOUSE_BUTTON_MIDDLE,
 };
 
+void VoxelFactory::scrollCallback(GLFWwindow *, double xoffset, double yoffset)
+{
+    if (InputEventsPtr) {
+        InputEventsPtr->push(VoxelFactory::InputEvent{
+            VoxelFactory::EventType::MouseScrolled,
+            VoxelFactory::MouseScrollEvent{xoffset, yoffset}
+        });
+    }
+}
+
 void VoxelFactory::Renderer::fetchInputs(ThreadSafeQueue<InputEvent>& inputEvents, GLFWwindow* window)
 {
+    InputEventsPtr = &inputEvents;
     for (int key : keys) {
         int state = glfwGetKey(window, key);
         if (state == GLFW_PRESS || state == GLFW_RELEASE) {

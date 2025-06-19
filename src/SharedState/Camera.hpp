@@ -5,7 +5,7 @@
 namespace VoxelFactory
 {
 
-constexpr float MIN_ZOOM = 1.0f;
+constexpr float MIN_ZOOM = 10.0f;
 constexpr float MAX_ZOOM = 100.0f;
 
 class Camera
@@ -20,7 +20,7 @@ class Camera
 
         Camera(glm::vec3 target = glm::vec3(0.0f, 0.0f, 0.0f),
             float yaw = 45.0f, float pitch = 45.0f,
-            float zoom = 1.0f, float velocity = 10.0f);
+            float zoom = 1.0f, float velocity = 1.0f);
 
         glm::mat4 getTransformationMatrix(void);
 
@@ -48,7 +48,10 @@ class Camera
         float _zoom;
 
         float _yaw;    // in radians
-        float _pitch; // in radians
+        float _pitch;  // in radians
+
+        glm::mat4 _cachedViewMatrix;
+        bool _dirty;
 
         void _computePosition();
 };
