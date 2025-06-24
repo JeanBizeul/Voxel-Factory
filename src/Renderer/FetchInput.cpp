@@ -15,7 +15,8 @@ const std::vector<int> keys = {
     GLFW_KEY_RIGHT,
     GLFW_KEY_SPACE,
     GLFW_KEY_LEFT_SHIFT,
-    GLFW_KEY_ESCAPE
+    GLFW_KEY_ESCAPE,
+    GLFW_KEY_TAB
 };
 
 const std::vector<int> mouseButtons = {
@@ -66,22 +67,30 @@ void VoxelFactory::Renderer::fetchInputs(ThreadSafeQueue<InputEvent>& inputEvent
 {
     InputEventsPtr = &inputEvents;
     for (int key : keys) {
-        int state = glfwGetKey(window, key);
-        if (state == GLFW_PRESS || state == GLFW_RELEASE) {
+        int currentState = glfwGetKey(window, key);
+        if (!_prevKeyStates.count(key))
+            _prevKeyStates[key] = -1;
+        int previousState = _prevKeyStates.at(key);
+        if (currentState != previousState) {
             inputEvents.push(InputEvent{
-                state == GLFW_PRESS ? EventType::KeyPressed : EventType::KeyReleased,
+                currentState == GLFW_PRESS ? EventType::KeyPressed : EventType::KeyReleased,
                 KeyEvent{key}
             });
+            _prevKeyStates[key] = currentState;
         }
     }
 
     for (int button : mouseButtons) {
-        int state = glfwGetMouseButton(window, button);
-        if (state == GLFW_PRESS || state == GLFW_RELEASE) {
+        int currentState = glfwGetMouseButton(window, button);
+        if (!_prevMouseStates.count(button))
+            _prevMouseStates[button] = -1;
+        int previousState = _prevMouseStates.at(button);
+        if (currentState != previousState) {
             inputEvents.push(InputEvent{
-                state == GLFW_PRESS ? EventType::MouseButtonPressed : EventType::MouseButtonReleased,
+                currentState == GLFW_PRESS ? EventType::MouseButtonPressed : EventType::MouseButtonReleased,
                 MouseButtonEvent{button}
             });
+            _prevMouseStates[button] = currentState;
         }
     }
 }

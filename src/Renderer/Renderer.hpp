@@ -42,6 +42,9 @@ class Renderer {
     std::unique_ptr<OpenGLUtils::TextureAtlas> _textureAtlas;
     std::unique_ptr<OpenGLUtils::Shader> _blockShader;
 
+    std::unordered_map<int, int> _prevKeyStates;
+    std::unordered_map<int, int> _prevMouseStates;
+
     void renderBlocks();
 };
 

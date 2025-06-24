@@ -52,6 +52,12 @@ void VoxelFactory::Game::_handleKeyPressed(int key, SharedState &state)
         case GLFW_KEY_ESCAPE:
             state.stopApp();
             break;
+        case GLFW_KEY_LEFT_SHIFT:
+            state.camera().setVelocity(10.0f);
+            break;
+        case GLFW_KEY_TAB:
+            state.camera().setZoom(1000.0f);
+            break;
         default:
             break;
     }
@@ -59,6 +65,16 @@ void VoxelFactory::Game::_handleKeyPressed(int key, SharedState &state)
 
 void VoxelFactory::Game::_handleKeyRelease(int key, SharedState &state)
 {
+    switch (key) {
+        case GLFW_KEY_LEFT_SHIFT:
+            state.camera().setVelocity(1.0f);
+            break;
+        case GLFW_KEY_TAB:
+            state.camera().setZoom(100.0f);
+            break;
+        default:
+            break;
+    }
 }
 
 void VoxelFactory::Game::_handleMouseButtonPressed(int button, SharedState &state)

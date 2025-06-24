@@ -104,7 +104,7 @@ void VoxelFactory::Camera::setRotation(float yawDegrees, float pitchDegrees)
 void VoxelFactory::Camera::setZoom(float zoom)
 {
     _dirty = true;
-    _zoom = glm::clamp(zoom, MIN_ZOOM, MAX_ZOOM);
+    _zoom = glm::clamp(zoom, MIN_ZOOM, MAX_ZOOM * 100.0f);
     _computePosition();
 }
 

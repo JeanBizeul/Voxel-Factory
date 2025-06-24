@@ -34,14 +34,14 @@ public:
         _camera.rotateVertical(pitchDegrees);
     }
 
-    void setTargetPosition(glm::vec3 position) {
-        std::lock_guard<std::mutex> lock(_mutex);
-        _camera.setTargetPosition(position);
-    }
-
     void zoom(float zoom) {
         std::lock_guard<std::mutex> lock(_mutex);
         _camera.zoom(zoom);
+    }
+
+    void setTargetPosition(glm::vec3 position) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        _camera.setTargetPosition(position);
     }
 
     void setRotation(float yawDegrees, float pitchDegrees) {
@@ -52,6 +52,11 @@ public:
     void setZoom(float zoom) {
         std::lock_guard<std::mutex> lock(_mutex);
         _camera.setZoom(zoom);
+    }
+
+    void setVelocity(float velocity) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        _camera.setVelocity(velocity);
     }
 
     glm::vec3 getTargetPosition() const {
