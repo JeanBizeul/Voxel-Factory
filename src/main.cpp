@@ -28,7 +28,7 @@ void sigintHandler(int sig)
 int main()
 {
     std::signal(SIGINT, sigintHandler);
-    Logs::Logger::getInstance().setMinimumLogLevel(Logs::LogLevel::Info);
+    Logs::Logger::getInstance().setMinimumLogLevel(Logs::LogLevel::Debug);
     std::thread mesher(VoxelFactory::chunckMesherThread, std::ref(st));
     std::thread renderer(VoxelFactory::rendererThread, std::ref(st));
     VoxelFactory::gameSimulationThread(std::ref(st));

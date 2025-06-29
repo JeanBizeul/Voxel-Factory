@@ -66,7 +66,6 @@ VoxelFactory::MeshData VoxelFactory::generateMesh(const Chunk &chunk)
 {
     MeshData mesh;
 
-    LOG_DEBUG("Generating mesh ({}, {}, {})", chunk.pos.x, chunk.pos.y, chunk.pos.z);
     mesh.chunkPosition = chunk.pos;
 
     for (int y = 0; y < CHUNK_SIZE_Y; y++) {

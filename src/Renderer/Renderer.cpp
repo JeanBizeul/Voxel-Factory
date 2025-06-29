@@ -60,8 +60,6 @@ void VoxelFactory::Renderer::storeForRendering(const MeshData &meshData)
     if (_meshes.contains(meshData.chunkPosition))
         return;
 
-    LOG_DEBUG("Sending mesh to GPU ({}, {}, {})",
-        meshData.chunkPosition.x, meshData.chunkPosition.y, meshData.chunkPosition.z);
     auto mesh = std::make_unique<OpenGLUtils::Mesh>(meshData.vertices, meshData.indices);
     _meshes[meshData.chunkPosition] = std::move(mesh);
 }
